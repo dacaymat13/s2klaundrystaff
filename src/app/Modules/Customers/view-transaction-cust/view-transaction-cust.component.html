@@ -1,0 +1,189 @@
+<div class="container mt-5 mb-5" id="print-section">
+    <div class="receipt-main">
+      <div class="receipt-header">
+        <div class="receipt-left">
+          <img
+            class="img-responsive"
+            alt="logo"
+            src="https://bootdey.com/img/Content/avatar/avatar6.png"
+          />
+        </div>
+        <div class="receipt-right text-right">
+          <h5>S2K LAUNDRY SERVICES</h5>
+          <p>09075152599 <i class="fa fa-phone"></i></p>
+          <p>s2klaundrygmail.com <i class="fa fa-envelope-o"></i></p>
+          <p>Philippines <i class="fa fa-location-arrow"></i></p>
+        </div>
+      </div>
+  
+      <div class="receipt-header-mid">
+        <div class="" *ngIf="!isLoading">
+          <h5>
+            {{ cust.Cust_fname }} {{ cust.Cust_mname }} {{ cust.Cust_lname }}
+          </h5>
+          <p><b>Mobile :</b> {{ cust.Cust_phoneno }}</p>
+          <p><b>Email :</b> {{ cust.Cust_email }}</p>
+          <!-- <p><b>Address :</b> {{ cust.Cust_address }}</p> -->
+        </div>
+        <div class="receipt-left">
+          <p><b>TRANSACTION #</b></p>
+          <h3>{{ trackingnumber }}</h3>
+        </div>
+      </div>
+      <!-- } -->
+      <h5 class="mt-4"><ul>Transaction</ul></h5>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Category</th>
+            <th class="text-right">QTY</th>
+            <th class="text-right">Kilograms</th>
+            <th class="text-right">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(c of histo; track c.Categ_ID){
+            <tr>
+              <td>{{ $index + 1 }}</td>
+              <td>{{ c.Categories }}</td>
+              <td class="text-right">{{ c.Qty }}</td>
+              <td class="text-right">{{ c.Weight | currency : " " : "symbol" }}</td>
+              <td class="text-right">{{ c.Price | currency : " " : "symbol" }}</td>
+            </tr>
+          } 
+            <tr>
+              <td></td>
+              <td></td>
+              <td class="text-right"></td>
+              <td class="text-right"><h5><b>Total:</b></h5> </td>
+              <td class="text-right text-primary">{{totalpayment | currency : " " : "symbol"}}</td>
+            </tr>
+        </tbody>
+      </table>
+      <h5><ul>Additional Service</ul></h5>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Services</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th class="text-right">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(s of service; track s.AddService_ID){
+          <tr>
+            <td>{{ s.AddService_name }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-right underline">
+              {{ s.AddService_price | currency : " " : "symbol" }}
+            </td>
+          </tr>
+          }
+  
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-right"><h5><b>Total:</b></h5></td>
+            <td class="text-right text-primary">
+              {{addservices | currency : " " : "symbol"}}
+            </td>
+          </tr>
+  
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-right">
+              <p><strong>Total Amount: </strong></p>
+              <!-- <p><strong>Additional Services: </strong></p> -->
+              <p><strong>Amount Received: </strong></p>
+              <p><strong>Change: </strong></p>
+              <!-- <p><strong>Shipping fee: </strong></p> -->
+              <p><strong>Balance: </strong></p>
+            </td>
+            <td>
+              <div class="transaction-item text-right">
+                <p class="text-success">
+                  {{ alltotal | currency : " " : "symbol" }}
+                </p>
+                <!-- <p>
+                  {{ addservices ?? 0 | currency : " " : "symbol" }}
+                </p> -->
+                <p>
+                  {{ payment ?? 0 | currency : " " : "symbol" }}
+                </p>
+                <p>
+                  {{
+                    payment != null && totalpayment != null
+                      ? payment - totalpayment - addservices > 0
+                        ? (payment - totalpayment - addservices | number: '1.2-2')
+                        : (0 | number: '1.2-2')
+                      : (0 | currency : " " : "symbol")
+                  }}                
+                </p>
+                <!-- <p> 
+                    {{ (payment != null && totalpayment != null) ? ((payment - totalpayment - addservices) > 0 ? (payment - totalpayment - addservices) : 0) : 0 | currency: ' ' : 'symbol'  }}
+                  </p> -->
+                <p class="text-danger">
+                  {{
+                    payment - totalpayment - addservices < 0
+                      ? (0 - (payment - totalpayment - addservices) | currency : " " : "symbol" : "1.2-2")
+                      : (0 | currency : " " : "symbol" : "1.2-2")
+                  }}                
+                </p>
+              </div>
+            </td>
+          </tr>
+          <!-- <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-right">
+              <h2><strong>OverAll Total: </strong></h2>
+            </td>
+  
+            <td class="text-right">
+              <h2>
+                <strong>
+                  {{ totalamount | currency : " " : "symbol" }}
+                </strong>
+              </h2>
+            </td>
+          </tr> -->
+        </tbody>
+      </table>
+  
+      <div class="receipt-footer">
+        <div class="footer-left">
+          <!-- <p><b>Date :</b> 15 Aug 2016</p> -->
+          <h5 style="color: rgb(140, 140, 140)">Thanks for Patient!</h5>
+        </div>
+        <div class="footer-right">
+          <button
+            class="end btn btn-primary mx-2"
+            routerLink="/main/tansactionpage/main/view-tran/viewtransac"
+          >
+            Back
+          </button>
+          <button
+            class="end btn btn-success"
+            printSectionId="print-section"
+            ngxPrint
+          >
+            Print
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

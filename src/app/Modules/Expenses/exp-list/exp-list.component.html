@@ -1,0 +1,192 @@
+<div class="row mb-3">
+  <div class="col-12">
+    <h3 class="text-center styled-heading">
+      <!-- <i class="fas fa-tshirt laundry-icon"></i>  -->
+      <!-- <i class="fa-solid fa-water laundry-icon"></i> -->
+      <i class="fa-solid fa-money-bill-transfer laundry-icon"></i>
+
+      Expenses
+      <i class="fas fa-washing-machine laundry-icon"></i> <!-- Washing Machine Icon -->
+    </h3>
+  </div>
+</div>
+<div class="row justify-content-center w-100 mt-5 " >
+    <div class="col-sm-8">
+      <div class="card" style="height: 600px; ">
+        <div class="card-body">
+          <div class="">
+            <!-- <h4 class="card-title">List Of Expenses</h4> -->
+            <span class="datePicker" style="display: inline-flex; float: right;">
+              <label for="today" class="fs-6 me-2">Pick a Date: </label>
+              <input class="form-control form-control-date" id="today" type="date" class="date-today" [(ngModel)]="today" (change)="onDateChange($event)">
+            </span>
+          </div>
+          <br>
+          <div class="mt-5 tableFixHead"  style="height: 100%; width: 100%; overflow: auto; overflow-y: hidden;">
+            <table class="table">
+              <thead class="thead">
+                <tr style=" background-color: #5988E2; ">
+                  <th scope="col" style="color: #0b0d0f;">Date taken</th>
+                  <th scope="col" style="color: #0b0d0f;">Time taken</th>
+                  <th scope="col" style="color: #0b0d0f;">Reason</th>
+                  <th scope="col" style="color: #0b0d0f;">Receipt</th>
+                  <th scope="col" style="color: #0b0d0f;">Amount</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (e of filteredExpense; track e.Expense_ID){
+                  <tr>
+                    <td>{{e.Datetime_taken | date:'MMM dd, YYYY'}}</td>
+                    <td>{{e.Datetime_taken | date:'hh:mm:ss a'}}</td>
+                    <td>{{e.Desc_reason}}</td>
+                    <td>
+                      <div *ngIf="e.Expense_ID" class="container imagess" style="max-width: 2%; margin: 0; position: relative;" (click)="getExpReceipt(e.Expense_ID)" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <!-- <img [src]="'http://192.168.137.146:8000/storage/' + e.Receipt_filenameimg"
+                            class="imgs border border-2 border-white m-0"
+                            width="30" height="35"
+                            type="button"
+                            id="imgBtn"
+                        /> -->
+                        <img [src]="'http://localhost:8000/storage/' + e.Receipt_filenameimg"
+                            class="imgs border border-2 border-white m-0"
+                            width="30" height="35"
+                            type="button"
+                            id="imgBtn"
+                        />
+                        <span class="view position-absolute px-1 m-0 translate-middle badge" style="left: 40px; bottom: -12px;">
+                            <i class="fa-regular fa-eye"></i>
+                        </span>
+                      </div>
+                    </td>
+                    <td class="text-end pe-4">{{e.Amount | currency: 'PHP':'symbol':'1.2-2'}}</td>
+
+                    <td>
+                      <button class="btn btn-update d-block mx-auto mt-3" (click)="updateExpense(e)"  >
+                        <i class="fas fa-edit"></i> Update
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th scope="row" colspan="4">{{totalLabel ? "Daily" : "Overall"}} Total:</th>
+                  <th scope="row" colspan="1"></th>
+                  <th scope="row" colspan="1"></th>
+                  <th scope="row" colspan="1"></th>
+                  <!-- <th scope="row" class="text-end pe-4" colspan="1" *ngFor="let total of overallExp">{{total.overallPrice}}</th> -->
+                  <th scope="row" class="text-end pe-4" colspan="1">{{totalPrice | currency: 'PHP':'symbol':'1.2-2'}}</th>
+                  <th scope="row" colspan="1"></th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+
+  
+    <div class="col-md-3">
+      <div class="card" style="background-color: #ecf0f1;">
+        <div class="card-body">
+          <h5 class="card-title" style="font-weight: bold; color: #0b0d0f; font-size: 18px;">{{ isEditing ? 'Edit Expense' : 'Add Expense' }}</h5>
+          <form [formGroup]="addExpenseForm" (submit)="addExpense()">
+            <div class="form-row">
+              <div class="form-group col-md-8">
+                <label for="change" class="form-label">Amount:</label>
+                <input type="number" class="form-control" formControlName="Amount" id="change" placeholder="Enter amount" value="0">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="reason" class="form-label">Reason:</label>
+              <textarea class="form-control" formControlName="Desc_reason" id="reason" placeholder="Enter reason"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="file-upload" class="form-label">Receipt:</label>
+              <i class="fas fa-paperclip"></i>
+              <input type="file" class="form-control" formControlName="Receipt_filenameimg" id="file-upload"  accept="image/*" (change)="onFileSelected($event)">
+  
+              <!-- <div class="image-preview">
+                <img *ngIf="imagePreview" [src]="imagePreview" alt="" class="preview-image" style="width: auto; height: 180px;">
+              </div> -->
+              <!-- <div type="file" *ngIf="imagePreview"  class="form-control" formControlName="Receipt_filenameimg" id="file-upload"  accept="image/*" (change)="onFileSelected($event)" class=" mx-auto mt-3">
+                <img [src]="imagePreview" alt="" class="preview-image" style="width: auto; height: auto;">
+                <input type="file" name="file" id="file" class="inputfile" accept="image/*"/>
+                <label for="file"><i class="fa-solid fa-arrow-up-from-bracket" *ngIf="imagePreview===''"></i></label>
+              </div> -->
+
+              <div class="addImg mx-auto mt-3">
+                <img [src]="imagePreview" alt="">
+                <label for="inputFile" class="clicker">
+                  <i class="fa-solid fa-arrow-up-from-bracket" *ngIf="imagePreview===''"></i>
+                </label>
+                <!-- <input type="file" class="form-control inputImage" id="inputFile"  formControlName="Receipt_filenameimg" accept="image/*" (change)="onFileSelected($event)"> -->
+              </div>
+              
+            </div>
+            <button type="submit" class="btn btn-update d-block mx-auto mt-3 w-100 h-100">{{ isEditing ? 'Update' : 'Add' }}</button>
+          </form>
+        </div>
+      </div>
+  </div>
+  </div>
+
+
+
+
+
+    
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="name" class="text-secondary">Staff-in-Charge: </label>
+              <p class="fs-5">{{expDet?.AdminName}}</p>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="name" class="text-secondary">Date & Time Taken:</label>
+              <p class="fs-5">{{expDet?.Datetime_taken | date:'MMM dd, YYYY'}} - {{expDet?.Datetime_taken | date:'hh:mm:ss a'}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="name" class="text-secondary">Description: </label>
+              <p class="fs-5">{{expDet?.Desc_reason}}</p>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="name" class="text-secondary">Amount:</label>
+              <p class="fs-5">{{expDet?.Amount}}.00</p>
+            </div>
+          </div>
+        </div>
+        <hr class="mx-5 mt-0">
+        <div class="row mx-2">
+
+            <label class="fs-5">Receipt:</label>
+          <div class="col">
+            <!-- <img [src]="'http://localhost:8000/storage/' + expDet?.Receipt_filenameimg" class="imgs border border-2 border-white m-0 w-75" style="display: flex; justify-content: space-around;"  id="imgBtn"> -->
+            <img *ngIf="expDet?.Receipt_filenameimg" 
+            [src]="'http://localhost:8000/storage/' + expDet.Receipt_filenameimg" 
+            class="imgs border border-2 border-white m-0 w-75" 
+            style="display: flex; justify-content: space-around;" 
+            id="imgBtn" 
+            alt="Expense Receipt">
+          </div>
+        </div>
+        <div class="modal-footer mt-2">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

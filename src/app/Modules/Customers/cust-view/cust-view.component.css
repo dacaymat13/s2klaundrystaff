@@ -1,0 +1,16 @@
+input[type="date"].highlighted {
+    border: 2px solid yellow;
+    background-color: rgba(255, 255, 0, 0.3);
+  }
+  
+  /* Optional: Display a tooltip or a message */
+  .transaction-date-message {
+    color: red;
+    font-size: 14px;
+    display: none;
+  }
+  
+  input[type="date"].highlighted + .transaction-date-message {
+    display: block;
+  }
+  

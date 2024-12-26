@@ -1,0 +1,269 @@
+body {
+    background-color: #f4f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .laundry-card {
+    max-width: 800px;
+    margin: auto;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .laundry-card:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  }
+  
+  h3, h4 {
+    text-align: center;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  p {
+    color: #666;
+    text-align: center;
+  }
+  
+  .customer-info {
+    margin-bottom: 20px;
+  }
+  
+  .table-laundry th, .table-laundry td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .table-laundry th {
+    color: #333;
+  }
+  
+  .table-laundry td {
+    color: #555;
+  }
+  
+  .btn-primary, .btn-secondary {
+    padding: 10px 20px;
+    border-radius: 30px;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+    font-weight: 500;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+    font-weight: 500;
+  }
+  
+  .total-section {
+    margin-top: 20px;
+    text-align: right;
+  }
+  
+  .total-section p {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  @media (max-width: 768px) {
+    .laundry-card {
+        max-width: 95%;
+    }
+  }
+  
+  /* Red border for 'required' error */
+  .is-invalid {
+    border-color: red !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25); /* Red glow */
+  }
+  
+  /* Blue border for 'min' error */
+  .is-blue {
+    border-color: rgb(44, 102, 210) !important;
+    box-shadow: 0 0 0 0.2rem rgb(44, 102, 210, 0.25); /* Blue glow */
+  }
+  
+  /* Red alert when required field is empty */
+  .is-red {
+    border-color: red !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25); /* Red glow */
+  }
+  .is-redd {
+    border-color: red !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25); /* Red glow */
+  }
+  
+  .text-blue {
+    color: rgb(44, 102, 210) !important; /* Blue color for the icon */
+  }
+  
+  
+  
+  
+  
+  
+  
+  .modal-content {
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    font-size: 14px;
+    border: none;
+  }
+  
+  .modal-header {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .modal-title {
+    /* font-size: 18px; */
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .modal-body {
+    padding-top: 0;
+  }
+  
+  .transaction-amount {
+    font-size: 36px;
+    font-weight: 700;
+    color: #1d91de;
+    margin-bottom: 20px;
+  }
+  
+  .support-fee {
+    font-size: 13px;
+    color: #888;
+    margin-top: 10px;
+  
+  }
+  
+  .complete-badge {
+    margin-top: 10px;
+    background-color: #e5f7e5;
+    color: #28a745;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  
+  .notcomplete-badge {
+    margin-top: 10px;
+    background-color: #f7e5e5;
+    color: #d1485f;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  
+  
+  .description-section,
+  .location-section,
+  .receipts-section {
+    /* margin-top: 20px; */
+    background-color: #fafafa;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #e5e5e5;
+  }
+  
+  .section-title {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .description-text,
+  .location-text,
+  .type-text {
+    color: #555;
+  }
+  
+  .map-placeholder {
+    width: 100%;
+    height: 150px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    margin-top: 10px;
+    background-image: url('https://via.placeholder.com/150x150?text=Map');
+    background-position: center;
+    background-size: cover;
+  }
+  
+  .receipt-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 10px;
+    border: 1px solid #e5e5e5;
+  }
+  
+  .upload-placeholder {
+    width: 60px;
+    height: 60px;
+    border: 2px dashed #d9d9d9;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a6a6a6;
+    font-size: 24px;
+  }
+  
+  .small-text {
+    font-size: 12px;
+    color: #999;
+    margin-top: 5px;
+  }
+  
+  .divider {
+    border-top: 1px solid #e0e0e0;
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .btn-close {
+    background: transparent;
+    border: none;
+  }
+  
+  .modal-footer {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  .modal-header .btn-close:hover {
+    background-color: transparent;
+  }
+  
+  
+  
+  
+  .askPay, form {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .askPay.ng-enter-active, form.ng-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .askPay.ng-leave-active, form.ng-leave-active {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  

@@ -1,0 +1,147 @@
+
+<!-- <h4 class="">Today's Expense Report</h4>
+<table class="table text-center">
+    <thead class="thead" style="background-color: #5988E2;">
+      <tr>
+        <th scope="col">No.</th>
+        <th scope="col">Order Receipt</th>
+        <th scope="col">Description</th>
+        <th scope="col">Total Purchased</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(e of expense; track e.Admin_ID){
+        <tr>
+          <td>{{$index+1}}</td>
+          <td>
+            <div *ngIf="e.Expense_ID" class="container imagess"  (click)="dispExpReceipt(e.Expense_ID)" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <img [src]="'http://localhost:8000/storage/' + e.Receipt_filenameimg"
+                  class="imgs border border-2 border-white m-0"
+                  width="30" height="35"
+                  type="button"
+                  id="imgBtn"
+              />
+               
+            </div>
+          </td>
+          <td>{{e.Desc_reason}}</td>
+          <td>{{e.Amount}}</td>
+        </tr>
+      }
+      
+      <tr>
+        <th scope="row" colspan="2">Total:</th>
+        <th>{{totalexpense}}</th>
+        <td></td>
+      </tr>
+    </tbody>
+  </table> -->
+
+  <div class="container border-0">
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+        <div class="table-responsive mt-2 mb-2">
+          <div class="card">
+            <div class="card-body" id="print-section">
+              
+          
+              <div class="row ">
+
+              <div class="row">
+                <h5 style="font-size: 25px;">Today's Expense Report</h5>
+                <div class="col-md-7 mx-3">
+                  <div class="">
+                    <p><b>Description Reason</b></p>
+                  </div>
+                </div>
+
+                <div class="col-md-1">
+                  <div class="">
+                    <!-- <p><b>Staff Name</b></p> -->
+                  </div>
+                </div>
+                
+                <div class="col-md-3">
+                  <div class="ps-5">
+                    <p><b>Amount Taken</b></p>
+                  </div>
+                </div>
+                <!-- <div class="col-md-3">
+                  <div class="">
+                    <p><b></b></p>
+                  </div>
+                </div> -->
+              </div>
+
+              <div class="row mx-2">
+                @for(e of expenses; track e.Expense_ID) {
+                <div class="col-md-8">
+                    <div class="">
+                      <p>{{e.Desc_reason}}</p>
+                    </div>
+                </div>
+
+                <div class="col-md-1">
+                  <div class="">
+                    <!-- <p>{{e.adminNames}}</p> -->
+                  </div>
+                </div>
+                
+                <div class="col-md-3 text-right">
+                  <div class="">
+                    <!-- <h5 class="font-size-15 mb-1">Amount:</h5> -->
+                    <p class="text-center">{{ e.Amount | currency: 'PHP':'symbol' }}</p>
+                  </div>
+                </div>
+                <!-- <div class="col-md-3">
+                  <div class="">
+                    <p class="text-center">{{ totalexpenses | currency: 'PHP':'symbol' }}</p>
+                  </div>
+                </div> -->
+                }
+              </div>
+
+              <hr>
+              <div class="row">
+                <!-- <div class="col-8 text-right">
+                  <div class="">
+                    <h5 class="font-size-15 mb-1"></h5>
+                    <p>9000</p>
+                  </div>
+                </div> -->
+                <div class="col-12 text-right">
+                  <div class="">
+                    <h5 class="font-size-15 mb-1"></h5>
+                    <!-- <p><b>Total Expenses: {{totalexpenses | currency: 'PHP':'symbol'}}</b></p> -->
+                    <!-- <p><b>{{totalexpenses | currency: 'PHP':'symbol'}}</b></p> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-8 mx-4">
+                    <h5 class="font-size-15 mb-1 text-right">Total Expenses: </h5>
+                </div>
+                <div class="col-md-3 ps-5">
+                    <h5 class="font-size-15 mb-1 text-end">{{(totalexpenses || 0) | currency: 'PHP':'symbol':'1.2-2'}}</h5>
+                </div>
+              </div>
+
+              <!-- <div class="tal">
+                <h5></h5>
+              </div> -->
+              <div class="py-2">
+                <div class="d-print-none mt-2">
+                  <div class="float-end">
+                    <!-- <button [useExistingCss]="true" printSectionId="print-section" ngxPrint class="btn btn-success me-1"><i class="fa fa-print"></i></button>-->
+                    <!-- <a class="btn btn-primary w-md" [routerLink]="['/main/reportpage/reportmain/reportview/income']">Back</a>  -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

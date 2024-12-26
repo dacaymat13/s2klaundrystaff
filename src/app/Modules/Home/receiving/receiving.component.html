@@ -1,0 +1,424 @@
+<div class="container">
+    <div class="row">
+        <div class="card p-1" style="border: 0; overflow-x: auto;">
+          <div class="card-header px-1 pt-3 w-100" style="background-color: transparent;">
+            <div class="row mb-2">
+  
+              <div class="col-sm-8">
+                <div class="panel-title">Receiving Laundry Transaction</div>
+              </div>
+  
+              <div class="col-sm-4" style="display:inline-flex; flex-direction: row; justify-content: space-between; float: right;">
+                <button mat-button color="primary" class="rounded-2 bg-light text-dark p-0" style="font-size: 14px; padding: 0;" (click)="filterStatus('')">All</button>
+                <button mat-button color="primary" class="rounded-2 bg-light text-dark" style="font-size: 13px;" active (click)="filterStatus('pending')">Pending</button>
+                <button mat-button color="primary" class="rounded-2 bg-light text-dark" style="font-size: 13px;" (click)="filterStatus('received')">Received</button>
+                <button mat-button color="primary" class="rounded-2 bg-light text-dark" style="font-size: 13px;" (click)="filterStatus('washing')">Washing</button>
+                <button mat-button color="primary" class="rounded-2 bg-light text-dark" style="font-size: 13px;" (click)="filterStatus('folding')">Folding</button>
+              </div>
+  
+            </div>
+          </div>
+  
+          <div class="table-container">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z0 table-scroll" [style.color]="'dark'" style="background-color: transparent;" class="mt-2">
+  
+            <ng-container matColumnDef="code" hidden>
+              <th mat-header-cell *matHeaderCellDef> Tracking No. </th>
+              <td mat-cell *matCellDef="let transactions" style="color: black; font-weight: 600;" (click)="navigateAppUpdLaundry(transactions.Transac_ID, transactions.latest_transac_status)"> {{transactions.Tracking_number}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Customer Name </th>
+              <td mat-cell *matCellDef="let transactions" style="color: black; font-weight: 600;" (click)="navigateAppUpdLaundry(transactions.Transac_ID, transactions.latest_transac_status)"> {{ transactions.Cust_fname + ' ' + (transactions.Cust_mname ? transactions.Cust_mname.slice(0, 1) + '.' : '') + ' ' + transactions.Cust_lname }} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="numbers">
+              <th mat-header-cell *matHeaderCellDef> Customer Number </th>
+              <td mat-cell *matCellDef="let transactions"  style="color: black;" (click)="navigateAppUpdLaundry(transactions.Transac_ID, transactions.latest_transac_status)"> {{transactions.Cust_phoneno ? formatPhoneNumber(transactions.Cust_phoneno) : 'N/A'}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef> Transaction Date - Time </th>
+              <td mat-cell *matCellDef="let transactions"  style="color: black;" (click)="navigateAppUpdLaundry(transactions.Transac_ID, transactions.latest_transac_status)"> {{ transactions.Transac_datetime ? (transactions.Transac_datetime | date:'MMM dd, YYYY') + ' - ' + (transactions.Transac_datetime | date:'hh:mm a') : ''}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="time">
+              <th mat-header-cell *matHeaderCellDef> Date - Time Received </th>
+              <td mat-cell *matCellDef="let transactions"  style="color: black;" (click)="navigateAppUpdLaundry(transactions.Transac_ID, transactions.latest_transac_status)"> {{ transactions.Received_datetime ? (transactions.Received_datetime | date:'MMM dd, YYYY') + ' - ' + (transactions.Received_datetime | date:'hh:mm a') : ''}} </td>
+              @if(transactions?.Received_datetime !== null){
+                <p>Hello</p>
+              }
+            </ng-container>
+  
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef> Type of receving </th>
+              <td mat-cell *matCellDef="let transactions"  style="color: black;" (click)="navigateAppUpdLaundry(transactions.Transac_ID, transactions.latest_transac_status)"> {{transactions.receiving_type}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef> Total Amount </th>
+              
+                <td mat-cell *matCellDef="let transactions"  style="color: black;" (click)="navigateAppUpdLaundry(transactions.Transac_ID, transactions.latest_transac_status)">
+                  @if(transactions.Received_datetime !== null){
+                    {{transactions.OverAllTotal | currency: 'PHP':'symbol':'1.2-2'}}
+                  }@else {
+
+                  }
+                </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="payment">
+              <th mat-header-cell *matHeaderCellDef> Payment </th>
+              <td mat-cell *matCellDef="let transactions"  style="color: black; text-align: center;" >
+  
+                @if(transactions.payment === 'gcash' || transactions.payment === 'bpi'){
+                  <div class="d-flex">
+                    <div class="container imagess" style="max-width: 2%; margin: 0; position: relative;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      <img [src]="'http://localhost/storage/' + transactions.Proof_filename"
+                          class="imgs border border-2 border-white m-0"
+                          width="30" height="35"
+                          type="button"
+                          id="imgBtn"
+                      />
+                      <span class="view position-absolute px-1 m-0 translate-middle badge" style="left: 40px; bottom: -12px;">
+                          <i class="fa-regular fa-eye"></i>
+                      </span>
+                    </div>
+                    <span style="color: #5998e2; text-transform: uppercase; display: flex; justify-content: center; flex-direction: column;" class="ms-4">
+                      <!-- rgb(60, 157, 231) -->
+                      {{transactions.payment}}
+                    </span>
+                  </div>
+                }
+  
+                @else if(transactions.payment == 'cash') {
+                  <span style="color: rgb(102, 190, 106); text-transform: uppercase;">
+                    {{transactions.payment}}
+                  </span>
+                }
+  
+                @if(transactions.payment === 'unpaid') {
+                  @if(transactions.Received_datetime == null){
+                    <button class="btn btn-payment bg-secondary text-light" data-bs-toggle="modal" data-bs-target="#exampleModal1" hidden style="pointer-events: none; background-color: rgba(203, 203, 203, 0.511);" (click)="forPaymentModal(transactions.Transac_ID)"><i class="fa-regular fa-money-check-pen"></i></button>
+                  }@else{
+                    <button class="btn btn-payment bg-secondary text-light" data-bs-toggle="modal" data-bs-target="#exampleModal1" style="background-color: #f8a623;"  (click)="forPaymentModal(transactions.Transac_ID)"><i class="fa-regular fa-money-check-pen"></i></button>
+                  }
+                }
+  
+              </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef> Laundry Status </th>
+              <td mat-cell *matCellDef="let transactions" style="color: black;" id="StatusCol">
+                @if (transactions.latest_transac_status == 'pending') {
+                  <button class="btn text-light" style="background-color: #5998e2;" (click)="navigateAppUpdLaundry(transactions.Transac_ID, transactions.latest_transac_status)">
+                    <span *ngIf="!load">Pending</span>
+                            
+                    <div class="spinner-border spinner-border-sm" style="color: currentColor;" *ngIf="load" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </button>
+
+
+                }
+                @else{
+                  <select class="form-select form-select-sm py-1" style="width: 100px;" [(ngModel)]="transactions.latest_transac_status" (change)="updateStatusModal(transactions.Transac_ID, transactions.latest_transac_status)" aria-label="Small select example">
+                    <option ngValue="received" [disabled]="transactions.latest_transac_status === 'washing' || transactions.latest_transac_status === 'folding'">Received</option>
+                    <option ngValue="washing" [disabled]="transactions.latest_transac_status === 'folding'">Washing</option>
+                    <option ngValue="folding">Folding</option>
+                    <option ngValue="forRelease" (click)="forReleaseModal(transactions.Transac_ID)">For Release</option>
+                  </select>
+                }
+  
+  
+              </td>
+            </ng-container>
+  
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" style="background-color: #5998e2;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="cursor: pointer;" class="data-row"></tr>
+          </table>
+          </div>
+  
+        </div>
+  
+    </div>
+  </div>
+
+
+
+  <div class="modal fade forPayment"  id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-4 text-center" id="exampleModalLabel">Enter Customer Payment</h1>
+          <button type="button" class="btn-close fs-3" data-bs-dismiss="modal" aria-label="Close"><i class="fa-regular fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="name" class="text-secondary">Transaction Tracking No.</label>
+              <p class="fs-4">{{transacDet?.Tracking_number}}</p>
+            </div>
+  
+            <div class="col-sm-6">
+              <label for="name" class="text-secondary">Customer Name:</label>
+              <p class="fs-4">{{ transacDet?.Cust_fname + ' ' + (transacDet?.Cust_mname ? transacDet?.Cust_mname.slice(0, 1) + '.' : '') + ' ' + transacDet?.Cust_lname }}</p>
+            </div>
+          </div>
+        </div>
+        <hr class="mx-5 mt-0">
+        <div class="row mx-2">
+            <label class="fs-5">Transaction Details:</label>
+        </div>
+  
+  
+          <div class="tab-pane fade show active" id="payment-info" role="tabpanel" aria-labelledby="payment-info-tab">
+            <div class="description-section">
+              <div class="">
+                <div class="">
+                  <table>
+                    <thead>
+                      <tr class="" style="background-color: #5998e2;">
+                        <th class="text-center">Laundry Category</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-center">Weight</th>
+                        <th>Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for(ld of laundryInfo; track ld.TransacDet_ID){
+                        <tr class="">
+                          <td class="">{{ld.Category}}</td>
+                          <td class="">{{ld.Qty}}</td>
+                          <td class="">{{ld.Weight + 'kg'}}</td>
+                          <td class="text-end">{{ld.EachPrice | currency: 'PHP':'symbol':'1.2-2' }}</td>
+                        </tr>
+                      }
+  
+                      @if(addServ !== null){
+                        <tr>
+                          <th scope="row" colspan="3" class="text-center" style="background-color: #5998e2; color: white;">Additional Service Name</th>
+                          <th scope="row" colspan="1" class="text-start" style="background-color: #5998e2; color: white;"></th>
+                        </tr>
+                        @for(s of addServ; track s.AddService_ID){
+                            <tr class="">
+                              <td colspan="3" class="">{{s.AddService_name}}</td>
+                              <td colspan="1" class="text-end">{{s.AddService_price | currency: 'PHP':'symbol':'1.2-2' }}</td>
+                            </tr>
+                        }@empty {
+                          <p class="text-secondary text-center" style="font-size: 12px;">No Additional Service was acquired within this transaction.</p>
+                        }
+                      }
+                      
+  
+                      <tr style="border-top: 2px black solid;">
+                        <td colspan="3"><strong>Total:</strong></td>
+                        <td class="text-end"><strong>{{(totalLaundry || 0) + (totalService || 0) | currency: 'PHP':'symbol':'1.2-2'}}</strong></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-end mt-3" style="display: inline-flex; flex-direction: row; justify-content: end; align-items: center;">
+            <p class="me-2 mt-3" >Enter Amount: </p>
+            <input type="number" id="inputpayment" [(ngModel)]="inputAmount" #paymentField class="text-end">
+          </div>
+  
+  
+        <div class="modal-footer mt-2">
+
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal"  [disabled]="inputAmount < ((totalLaundry || 0) + (totalService || 0)) || inputAmount == null || inputAmount == 0 || load == true" (click)="enterAmount(payTransacID, inputAmount, (totalLaundry || 0), (totalService || 0))">
+            <span *ngIf="!load">Enter</span>
+
+            <div class="spinner-border spinner-border-sm" style="color: currentColor;" *ngIf="load" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="modal fade w-100" #transactionModal data-bs-backdrop="static" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header mb-2">
+          <h5 class="modal-title" id="transactionModalLabel">Review Transaction Details</h5>
+          <button type="button" class="btn-close text-dark pt-0 mt-0 fs-5" data-bs-dismiss="modal" aria-label="Close" (click)="back()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+  
+        <div class="modal-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <div class="section-title fs-4">{{transactionsRel?.CustomerName}}</div>
+              <div class="description-text fs-5">{{transactionsRel?.Tracking_number}}</div>
+            </div>
+  
+            <div>
+              <div class="transaction-time text-muted fs-6 mt-1 text-secondary">Laundry Status:</div>
+              <div class="transaction-time text-muted fs-5 mt-1 text-success" style="text-transform: uppercase;">{{transactionsRel?.latest_transac_status}}</div>
+            </div>
+          </div>
+  
+  
+          <!-- Tab Navigation -->
+          <!-- <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="payment-info-tab" data-bs-toggle="tab" data-bs-target="#payment-info" type="button"  aria-controls="payment-info" aria-selected="true">Laundry Details</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="events-tab" data-bs-toggle="tab" data-bs-target="#events" type="button"  aria-controls="events" aria-selected="false">Additional Services</button>
+            </li>
+          </ul> -->
+  
+  
+          <!-- <div class="tab-content mt-1" id="myTabContent">
+            <div class="tab-pane fade show active" id="payment-info" role="tabpanel" aria-labelledby="payment-info-tab">
+              <div class="description-section">
+                <div class="">
+                  <div class="">
+                    <table>
+                      <thead>
+                        <tr class="" style="background-color: #6f9bcb;">
+                          <th class="text-center">Laundry Category</th>
+                          <th class="text-center">Qty</th>
+                          <th class="text-center">Weight</th>
+                          <th>Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for(ld of laundryInfo; track ld.TransacDet_ID){
+                          <tr class="">
+                            <td class="">{{ld.Category}}</td>
+                            <td class="">{{ld.Qty}}</td>
+                            <td class="">{{ld.Weight + 'kg'}}</td>
+                            <td>{{ld.EachPrice | currency: 'PHP':'symbol':'1.2-2' }}</td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">
+              <div class="description-section">
+                <div class="">
+                  <div class="">
+                    <table>
+                      <thead>
+                        <tr class="text-dark" style="background-color: #6f9bcb;">
+                          <th class="">Additional Service</th>
+                          <th class="">Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for(ad of addServ; track ad.AddService_ID){
+                          <tr class="">
+                            <td class="">{{ad.AddService_name}}</td>
+                            <td class="text-end">{{ad.AddService_price | currency: 'PHP':'symbol':'1.2-2' }}</td>
+                          </tr>
+                        }@empty {
+                          <p>No Additional Service was acquired within this transaction.</p>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="tab-content mt-1" id="myTabContent">
+            <div class="tab-pane fade show active" id="payment-info" role="tabpanel" aria-labelledby="payment-info-tab">
+              <div class="description-section">
+                <div class="">
+                  <div class="">
+                    <div class="text-center fs-5">Transaction Details</div>
+                    <table class="w-100">
+                      <thead>
+                        <tr class="text-light" style="background-color: #5998e2;">
+                          <th class="text-center">Laundry Category</th>
+                          <th class="text-center">Qty</th>
+                          <th class="text-center">Weight</th>
+                          <th >Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for(ld of laundryInfo; track ld.TransacDet_ID){
+                          <tr class="">
+                            <td class="">{{ld.Category}}</td>
+                            <td class="">{{ld.Qty}}</td>
+                            <td class="">{{ld.Weight + 'kg'}}</td>
+                            <td class="text-end">{{ld.EachPrice | currency: 'PHP':'symbol':'1.2-2' }}</td>
+                          </tr>
+                        }
+  
+                        @if(addServ !== null){
+                          <tr>
+                            <th scope="row" colspan="3" class="text-center" style="background-color: #5998e2; color: white;">Additional Service Name</th>
+                            <th scope="row" colspan="1" class="text-start" style="background-color: #5998e2; color: white;"></th>
+                          </tr>
+                          @for(ad of addServ; track ad.AddService_ID){
+                            <tr class="">
+                              <td colspan="3" class="">{{ad.AddService_name}}</td>
+                              <td colspan="1" class="text-end">{{ad.AddService_price | currency: 'PHP':'symbol':'1.2-2' }}</td>
+                            </tr>
+                          }@empty {
+                            <p class="text-secondary text-center" style="font-size: 12px;">No Additional Service was acquired within this transaction.</p>
+                          }
+                        }@else {
+                          
+                        }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+  
+          <div class="divider"></div>
+  
+          <div class="receipts-section">
+            <div class="section-title">Payment Details</div>
+  
+            <div class="d-flex justify-content-between">
+              <div class="mt-3 ">
+                <div class="d-flex" style="flex-direction: column;">
+                  @if(payStatus === 0){
+                    <span class="notcomplete-badge" style="background-color: none !important;">unpaid</span>
+                  }@else {
+                    <span class="complete-badge" style="background-color: none !important;">PAID</span>
+                    <span class="complete-badge" style="background-color: none !important;">{{payStatus?.Mode_of_Payment}}</span>
+                  }
+                </div>
+              </div>
+
+              <div>
+                <div class="support-fee">Total:</div>
+                <div class="transaction-amount text-end">{{(totalLaundry || 0) + (totalService || 0) | currency: 'PHP':'symbol':'1.2-2'}}</div>
+              </div>
+  
+              
+  
+            </div>
+  
+              <div class="small-text">Please recheck details before proceeding.</div>
+          </div>
+        </div>
+  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="back()">Back</button>
+          <button type="button" class="btn releasing" id="releasing" data-bs-dismiss="modal" (click)="updateStatuses(transactionsRel?.Transac_ID, transactionsRel?.Transac_status)">Proceed Transaction for Release</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,102 @@
+table {
+    width: 100%;
+    background-color: white;
+  
+  }
+  
+  
+  .containerTab{
+    height: 470px;
+    overflow: auto;
+  }
+  tr.data-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  tr.data-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  .container-table{
+    box-shadow: rgba(0, 0, 0, 0.33) 1px 5px 7px 0;
+    transition: all 250ms;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    border-radius: 10px;
+  
+  }
+  
+  .input-wrapper {
+    position: relative;
+    background-color: transparent;
+    overflow: hidden;
+    margin: 1%;
+    padding: .5%;
+    border: solid rgba(116, 115, 115, 0.644) 2px;
+  }
+  
+  .icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: gray;
+  }
+  
+  .clearSearch{
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    overflow: hidden;
+  }
+  
+  .search-input {
+    padding-left: 40px;
+    background-color: transparent;
+    overflow: hidden;
+    border: none;
+  }
+  .search-input:focus{
+    border: none;
+    box-shadow: none;
+    outline: none;
+  }
+  input::before{
+    border: none;
+  }
+  
+  th{
+    border-bottom: 2px solid #000;
+  }
+  
+  .mat-table .mat-row {
+    cursor: pointer;
+  }
+  
+  .custom-paginator .mat-mdc-paginator-range-actions-labels{
+  display: none;
+  background-color: transparent;
+  flex-direction: column;
+  }
+  .styled-heading {
+    margin: auto;
+    color: #ffbb33;
+    letter-spacing: .4em;
+    font-size: 3em;
+    text-shadow: 0 1px #5998e2, -1px 0 #307ed8, -1px 2px #5998e2, -2px 1px #307ed8,
+      -2px 3px #5998e2, -3px 2px #307ed8, -3px 4px #5998e2, -4px 3px #307ed8,
+      -4px 5px #5998e2, -5px 4px #307ed8, -5px 6px #5998e2, -6px 5px #307ed8,
+      -6px 7px #5998e2, -7px 6px #307ed8, -7px 8px #5998e2, -8px 7px #307ed8;
+    text-align: center;
+  }
+  
+  .laundry-icon {
+    color: #ffbb33; /* Matching the heading text color */
+    font-size: 1em; /* Slightly larger icons */
+    margin: 0 0.2em; /* Space between the icons and the heading */
+  }
+  

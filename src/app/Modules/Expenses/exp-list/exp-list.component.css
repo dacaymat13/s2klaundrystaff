@@ -1,0 +1,200 @@
+.addImg {
+  text-align: center;
+  font-size: 1.25rem; /* Adjusted for responsiveness */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #328BE9;
+  color: #328BE9;
+  border-radius: 0.8em 40px 0.8em 0.4in;
+  width: 200px;
+  height: 250px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #fff; /* Added background for better contrast */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Added smooth transitions */
+}
+
+.addImg:hover {
+  box-shadow: rgba(50, 139, 233, 0.4) 0px 4px 8px, 
+              rgba(39, 128, 222, 0.4) 0px 7px 13px -3px, 
+              rgba(214, 214, 231, 1) 0px -3px 0px inset;
+  transform: translateY(-4px); /* Adjusted for subtle elevation */
+  background-color: #f9f9fc; /* Slight hover background effect */
+}
+
+
+.inputImage {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: .8em 40px .8em 0.4in;
+    width: 200px;
+    height: 250px;
+    overflow: hidden;
+    display: none;
+}
+
+.clicker{
+  cursor: pointer;
+    overflow: hidden;
+    font-size: 50px;
+    width: 200px;
+    height: 250px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: transparent;
+    display: inline-block;
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+
+
+
+.card-group{
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  .card-pic {
+    position: relative;
+    width: 50em;
+    transition: all 0.5s;
+  }
+  .imgs{
+    box-shadow: rgba(0, 0, 0, 0.33) 0 1px 3px 0;
+    transition: all 250ms;
+    touch-action: manipulation;
+    vertical-align: baseline;
+  }
+  
+  /* .card .card-body .card-title, .datePicker, .thead tr th {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
+  } */
+  
+  .view{
+    background-color: white;
+    color: #75CB92;
+    border-radius: 100px;
+    border: 1px solid #75CB92;
+    transition: all 0.5s;
+  }
+  
+  .imagess:hover .view {
+    color: white;
+    background-color: #75CB92;
+    border: 1px solid white;
+  }
+  
+  .imagess:hover .imgs {
+    transform: translateY(-3px);
+  }
+  
+  button.example-custom-date-class {
+    background: rgb(255, 209, 123) !important;
+    border-radius: 100%;
+  }
+
+
+  .tableFixHead{ 
+    /* width: 500px; */
+    table-layout: fixed;
+    border-collapse: collapse;
+  }
+  /* .tableFixHead thead th { 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000 !important; 
+  } */
+
+  .tableFixHead tbody {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    height: 350px;
+  }
+
+  .tableFixHead thead tr {
+    display: block;
+  }
+
+  .tableFixHead tfoot tr {
+    display: block;
+  }
+
+  .tableFixHead th,
+  .tableFixHead td {
+    padding: 5px 10px;
+    width: 200px;
+  }
+  .btn-update{
+    background-color: #5998e2;
+    color: white;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+  }
+  .btn-update:hover{
+    background-color: #307ed8;
+    color: white;
+  }
+  
+  /* table  { 
+
+    border-collapse: collapse; 
+    width: 100%; 
+  }
+  th, td { 
+    padding: 8px 16px; 
+  }
+  th { 
+    background:#eee; 
+    z-index: 1000;
+  } */
+
+
+
+  #inputFile::-webkit-file-upload-button {
+    visibility: hidden;
+  }
+  .styled-heading {
+    margin: auto;
+    color: #ffbb33;
+    letter-spacing: .4em;
+    font-size: 3em;
+    text-shadow: 0 1px #5998e2, -1px 0 #307ed8, -1px 2px #5998e2, -2px 1px #307ed8,
+      -2px 3px #5998e2, -3px 2px #307ed8, -3px 4px #5998e2, -4px 3px #307ed8,
+      -4px 5px #5998e2, -5px 4px #307ed8, -5px 6px #5998e2, -6px 5px #307ed8,
+      -6px 7px #5998e2, -7px 6px #307ed8, -7px 8px #5998e2, -8px 7px #307ed8;
+    text-align: center;
+  }
+  
+  .laundry-icon {
+    color: #ffbb33; /* Matching the heading text color */
+    font-size: 1em; /* Slightly larger icons */
+    margin: 0 0.2em; /* Space between the icons and the heading */
+  }

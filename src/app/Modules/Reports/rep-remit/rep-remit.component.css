@@ -1,0 +1,47 @@
+.responsive-form {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .responsive-form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .responsive-form input[type="text"], .responsive-form input[type="email"], .responsive-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .responsive-form input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+  }
+  
+  
+  @media (max-width: 600px) {
+    .responsive-form input[type="text"], .responsive-form input[type="email"], .responsive-form textarea {
+      font-size: 14px;
+    }
+  }
+
+  .placeholder-row{
+    height: 50px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  

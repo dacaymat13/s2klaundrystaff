@@ -1,0 +1,131 @@
+body {
+    background: #eee;
+    margin-top: 20px;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* min-height: 100vh; */
+  }
+  
+  .receipt-main {
+    background: #ffffff;
+    border-bottom: 12px solid #333333;
+    border-top: 12px solid #9f181c;
+    padding: 40px 30px;
+    box-shadow: 0 1px 21px #acacac;
+    color: #333333;
+    font-family: "Open Sans", sans-serif;
+    max-width: 800px;
+    width: 100%;
+    margin: auto;
+  }
+  
+  .receipt-header,
+  .receipt-header-mid,
+  .receipt-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .receipt-left img {
+    width: 71px;
+    border-radius: 43px;
+  }
+  
+  .receipt-right {
+    text-align: right;
+  }
+  
+  .table {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .table th {
+    /* background: #414143; */
+    color: #000000;
+  }
+  
+  .table td,
+  .table th {
+    padding: 10px;
+  }
+  
+  .text-danger strong {
+    color: #9f181c;
+  }
+  
+  .receipt-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .footer-left,
+  .footer-right {
+    flex: 1;
+  }
+  
+  .footer-left {
+    text-align: left;
+  }
+  
+  .footer-right {
+    text-align: right;
+    padding-right: 10px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    font-weight: 900;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  
+  h5 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 7px 0;
+  }
+  
+  p {
+    font-size: 12px;
+    margin: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .receipt-left,
+    .receipt-right {
+      flex: 100%;
+      text-align: center;
+      margin-top: 10px;
+    }
+  
+    .receipt-header,
+    .receipt-header-mid,
+    .receipt-footer {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .footer-left,
+    .footer-right {
+      flex: 100%;
+      text-align: center;
+      margin-top: 10px;
+    }
+  
+    .receipt-main {
+      padding: 20px;
+    }
+  }
+  .end {
+    /* margin: 10px; */
+    float: right;
+  }

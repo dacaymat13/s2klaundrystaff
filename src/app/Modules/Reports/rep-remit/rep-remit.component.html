@@ -1,0 +1,100 @@
+<section class="bg-white p-3 rounded">
+  <h4>Money Count</h4>
+<!-- {{staffID}}
+{{cash?.Staff_ID}} -->
+<div class="row" *ngIf="isLoading">
+  <div class="placeholder-row"></div>
+</div>
+<div *ngIf="!isLoading">
+  @if(cash?.Staff_ID == staffID){
+    <div class="responsive-form mt-3" >
+      <div class="row align-items-center mb-3">
+        
+        <div class="col-sm-6">
+          <label for="name" class="text-secondary">Date & Time Given:</label>
+          <p class="fs-5" [hidden]="cash?.Staff_ID != staffID">{{ cash?.Datetime_InitialAmo ? (cash?.Datetime_InitialAmo | date:'MMM dd, YYYY') + ' - ' + (cash?.Datetime_InitialAmo | date:'hh:mm a') : ''}}</p>
+        </div>
+    
+        
+        <div class="col-sm-6">
+          <label for="name" class="text-secondary">Initial Amount:</label>
+          <p class="w-50 text-end` fs-5" [hidden]="cash?.Staff_ID === staffID">{{(cash?.Initial_amount || 0) | currency: 'PHP':'symbol'}}</p>
+        </div>
+      </div>
+    
+      <div class="row">
+        <div class="col-sm-6" [hidden]="cash?.Received_datetime === null">
+          <label for="name" class="text-secondary">Date & Time Received:</label>
+          <p class="fs-5" [hidden]="cash?.Staff_ID != staffID">{{ cash?.Received_datetime ? (cash?.Received_datetime | date:'MMM dd, YYYY') + ' - ' + (cash?.Received_datetime | date:'hh:mm a') : ''}}</p>
+        </div>
+    
+        <!-- <div class="col-sm-6">
+          <label for="name" class="text-secondary">Receive from: </label>
+          <p class="fs-5" [hidden]="cash?.Staff_ID != staffID">{{cash?.adminName}}</p>
+        </div> -->
+    
+        <div class="col-sm-6 receivingBtn" style="display: flex; align-items: center;" [hidden]="cash?.Received_datetime !== null">
+          <button class="btn btn-warning" (click)="receive(cash?.Datetime_InitialAmo)">Receive</button>
+        </div>
+    
+        
+      </div>
+      <hr class="text-center mx-5">
+      <div class="container">
+        <!-- Total Payments -->
+        <div class="row align-items-center mb-2">
+          <div class="col-sm-10 d-flex justify-content-between">
+            <label for="totalPayments" class="text-secondary">Total Payments:</label>
+            <p class="w-50 text-end fs-5 text-success mb-0" 
+               [hidden]="cash?.Staff_ID != staffID">
+              {{ (totalpayments || 0) | currency: 'PHP':'symbol' }}
+            </p>
+          </div>
+        </div>
+      
+        <!-- Total Expenses -->
+        <div class="row align-items-center mb-2">
+          <div class="col-sm-10 d-flex justify-content-between">
+            <label for="totalExpenses" class="text-secondary">Total Expenses:</label>
+            <p class="w-50 text-end fs-5 mb-0" 
+               style="color: rgba(251, 76, 66, 0.849);" 
+               [hidden]="cash?.Staff_ID != staffID">
+              {{ (totalexpenses || 0) | currency: 'PHP':'symbol' }}
+            </p>
+          </div>
+        </div>
+      
+        <!-- Enter Cash Count -->
+        <div class="row align-items-center mb-2">
+          <div class="col-sm-10 d-flex justify-content-between">
+            <label for="inputRemAmount" class="text-secondary">Enter Cash Count:</label>
+            <input [disabled]="cash?.Received_datetime == null" 
+                   type="number"
+                   min="1"
+                   id="inputRemAmount" 
+                   [(ngModel)]="inputRemAmount" 
+                   class="form-control form-control-sm w-50 text-end">
+          </div>
+        </div>
+      
+        <!-- Submit Button -->
+        <div class="row mt-3">
+          <div class="col-sm-10 d-flex justify-content-end">
+            <button class="btn btn-success" 
+                    (click)="enterAmount(inputRemAmount, cash?.Cash_ID)">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    }@else {
+      <div class="container-fluid nonInitial bg-white">
+        <p style="display: flex; justify-content: center; align-items: center;">No Initial Amount has been given to you.</p>
+      </div>
+    }
+</div>  
+
+</section>
+

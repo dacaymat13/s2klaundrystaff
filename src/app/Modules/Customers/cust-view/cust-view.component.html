@@ -1,0 +1,85 @@
+<div class="container w-100 p-0">
+    <h2 class="text-center">Customer Transactions Record</h2>
+    <div class="container m-0 w-100 text-center" style="display: inline-block; vertical-align: middle; align-items: center; padding: none; justify-content: space-between;">
+        <div class="row w-100 text-center" style="padding: none;">
+            <div class="col-sm-3 image" style="justify-content: space-evenly; align-items: center;">
+                <div class="card text-center" style="width: 80%;">
+                    <img [src]="'http://localhost:8000/storage/' + customer?.Cust_image" style="height: 230px;">
+                </div>
+            </div>
+            <div class="col-sm-9 details py-4 text-start" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); background-color: white;">
+                <p style="margin-top: 20px; color: gray;">Customer Name:</p>
+                <h3 style="text-decoration: underline;">{{customer?.Cust_fname}} {{customer?.Cust_mname}} {{customer?.Cust_lname}}</h3>
+                <span>
+                    <div class="row">
+                        <div class="col">
+                            <p>Phone Number:</p>
+                            <h6>{{customer?.Cust_phoneno}}</h6>
+                        </div>
+                        <!-- <div class="col">
+                            <p>Customer Address:</p>
+                            <h6>{{customer?.Cust_address}}</h6>
+                        </div> -->
+                        <div class="col">
+                            <p>Customers Email:</p>
+                            <h5>{{customer?.Cust_email}}</h5>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="card">
+                <div class="card-body">
+                  <h3 class="card-title text-start">Transaction History </h3>
+                  <div class="row" style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <div class="col">
+                      <div class="fs-6 text-start" >
+                        <p>Overall Total of Transactions: <span style="color: rgb(101, 101, 255); font-size: 20px;">{{totTransacs}}</span></p>
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <span class="mb-3" style="display: inline-flex; float: right;"><label for="today" class="fs-6 me-2">Pick a Date: </label>
+                        <input class="form-control form-control-date" id="today" type="date" class="date-today" [(ngModel)]="today" (change)="onDateChange($event)">
+                      </span>
+                    </div>
+                  </div>
+                  <table class="table" style="height: 300px; overflow: scroll;">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Transaction Number</th>
+                        <th scope="col">Transaction Date</th>
+                        <th scope="col">Laundry Details</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Staff In-charge</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (t of data; track t.Transac_ID){
+                        <tr (click)="history(t.Transac_ID)">
+                          <td>{{t?.Tracking_number}}</td>
+                          <td>
+                            {{t.Transac_datetime}}
+                          </td>
+                          <td>{{t.Category}}</td>
+                          <td>{{t.totalprice}}</td>
+                          <td>{{t.latest_transac_status}}</td>
+                          <td>{{t.Admin_fname}} {{t.Admin_mname}} {{t.Admin_lname}}</td>
+                        </tr>
+                      }@empty{
+                        <p class="text-center">Empty list of Transactions</p>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <button class="btn btn-primary mt-3 me-1 fs-5" style="float: right;" (click)="back()">Back</button>
+  
+  
+  
+  

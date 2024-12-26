@@ -1,0 +1,152 @@
+<nav class="nav-header">
+    <input type="checkbox" id="sidebar-active" checked>
+    <label for="sidebar-active" class="open-sidebar-button" id="sidebar-button" (click)="toggleNav()">
+      <i class="fa fa-bars text-responsive" style="font-size: clamp(1.3rem, 3vw, 2.2rem); color: white;"></i>
+    </label>
+  
+    <div class="links-container">
+      <label for="sidebar-active" class="close-sidebar-button">
+        <i class="fa fa-cross" style="font-size: 1.8rem;"></i>
+      </label>
+    </div>
+  
+    <label id="overlay" for="sidebar-active" (click)="toggleNav()"></label>
+    <div class="navHeader-title">
+      <p class="fw-bold text-center">
+        WELCOME BACK <span class="text-black-50 fw-bolder" style="text-transform: uppercase;">{{user?.Role}}</span>
+      </p>
+    </div>
+  
+    <div class="sidebar">
+      <div class="logo-details">
+         <div class="logo-container">
+          <img [src]="'http://localhost:8000/storage/' + user?.Admin_image" class="dp">
+         </div>
+         <p class="name">{{user?.Admin_fname}} {{user?.Admin_mname}} {{user?.Admin_lname}}</p>
+      </div>
+  
+      <div class="menu mt-5">
+        <a
+          class="menu-item nav-link"
+          [routerLink]="['./home']"
+          routerLinkActive="active"
+        >
+          <i class="fa fa-home mx-2"></i> Home
+        </a>
+        <a
+          class="menu-item nav-link"
+          [routerLink]="['./expenses']"
+          routerLinkActive="active"
+        >
+          <i class="fa-solid fa-jug-detergent mx-2"></i> Expenses
+        </a>
+        <a
+          class="menu-item nav-link"
+          [routerLink]="['./customers']"
+          routerLinkActive="active"
+        >
+          <i class="fas fa-user-friends mx-2" style="font-size: 15px;"></i> Customers
+        </a>
+        <a
+          class="menu-item nav-link"
+          [routerLink]="['./reports']"
+          routerLinkActive="active"
+        >
+          <i class="fa-regular fa-file-chart-column mx-2"></i> Reports
+        </a>
+      </div>
+  
+  
+      <div class="pro">
+        <a
+          class="menu-item nav-link"
+          (click)="logout()"
+          routerLinkActive="active"
+        >
+          <i class="fa-solid fa-right-from-bracket mx-2"></i> Log Out
+        </a>
+      </div>
+    </div>
+  
+  </nav>
+  
+  
+  <div class="container-fluid mt-5" [ngStyle]="{ 'margin-left.px': isOpen ? 250 : 0}">
+    <div class="container main-container">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  
+
+  
+
+
+
+   <!-- <div class="navbar container-fluid sidenav" [ngClass]="{ open: isOpen }">
+    <div class="logo-details">
+      <img src="images/staffProf.jpg" class="dp">
+      <p class="name">{{user?.Admin_fname}} {{user?.Admin_mname}} {{user?.Admin_lname}}</p>
+    </div>
+    <div class="menu">
+      <a
+        class="menu-item nav-link"
+        [routerLink]="['./home']"
+        routerLinkActive="active"
+      >
+        <i class="fa fa-home mx-2"></i> Home
+      </a>
+      <a
+        class="menu-item nav-link"
+        [routerLink]="['./expenses']"
+        routerLinkActive="active"
+      >
+        <i class="fa-solid fa-jug-detergent mx-2"></i> Expenses
+      </a>
+      <a
+        class="menu-item nav-link"
+        [routerLink]="['./customers']"
+        routerLinkActive="active"
+      >
+        <i class="fas fa-user-friends mx-2" style="font-size: 15px;"></i> Customers
+      </a>
+      <a
+        class="menu-item nav-link"
+        [routerLink]="['./reports']"
+        routerLinkActive="active"
+      >
+        <i class="fa-regular fa-file-chart-column mx-2"></i> Reports
+      </a>
+    </div>
+    <div class="pro mt-5 pt-5">
+      <a
+        class="menu-item nav-link"
+        [routerLink]="['/login']"
+        routerLinkActive="active"
+      >
+        <i class="fa-solid fa-right-from-bracket mx-2"></i> Log Out
+      </a>
+    </div>
+  </div>
+  
+  <div class="main-content" [ngStyle]="{ 'margin-left.px': isOpen ? 250 : 0 }">
+    <div class="navbar-header">
+      <span class="nav-toggle" (click)="toggleNav()">
+        <i class="fa fa-bars"></i>
+      </span>
+      <span class="nav-title text-responsive fw-bold">
+        S2K LAUNDRY <span class="text-black-50 fw-bolder">STAFF</span>
+      </span>
+    </div>
+    <div class="container mt-2">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="container-fluid">
+            <div class="mx-1">
+              <router-outlet></router-outlet>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  

@@ -1,0 +1,692 @@
+<h1 class="text-center">Laundry Transaction Details</h1>
+<!-- <div class="container mt-3 mb-3">
+  <div class="card laundry-card">
+      <div class="card-body">
+          <div class="text-center">
+              <p style="margin-bottom: -3px; font-weight: 800;">Customer name:</p>
+              <h3>{{custInfo?.CustomerName}}</h3>
+              <span style="display: flex; justify-content: space-around;">
+                <p><strong>Phone #: </strong><span style="font-size: large;">{{custInfo?.Cust_phoneno}}</span></p>
+                <p><strong>Address: </strong><span style="font-size: large;">{{custInfo?.Cust_address}}</span></p>
+              </span>
+          </div>
+          <hr class="mx-5 mt-0">
+
+          <div class="laundry-details">
+              <h4>Transaction Details</h4>
+              <p style="margin-bottom: -3px; font-weight: 800;">Tracking Number:</p>
+              <h5 class="text-center">{{transaction?.Tracking_number}}</h5>
+
+              <table class="table table-laundry">
+                  <thead>
+                    <tr >
+                      <th scope="row" colspan="5" class="rounded-2 rounded-bottom-0" style="background-color: #3e89f9; color:white;">Laundry Details</th>
+                    </tr>
+                    <tr>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Weight</th>
+                        <th class="text-center">Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for(ld of laundry; track ld.TransacDet_ID){
+                      <tr>
+                        <td>{{ld.Category}}</td>
+                        <td>{{ld.Qty}}</td>
+                        <td>
+                          @if(ld.Weight === null){
+                            <p class="my-0 text-center"> - </p>
+                          }@else {
+                            {{ld.Weight + ' kgs'}}
+                          }
+                        </td>
+                        <td class="text-end">{{ld.EachPrice | currency: 'PHP':'symbol':'1.2-2' }}</td>
+                      </tr>
+                    }
+
+                    @if(servicess !== null){
+                      <tr>
+                        <th scope="row" colspan="5" style="background-color:rgb(254, 203, 72); color: white">Additional Services</th>
+                      </tr>
+                      @for(s of servicess; track s.AddService_ID){
+                        <tr>
+                          <td colspan="3">{{s.result}}</td>
+                          <td class="text-end">{{s.service_price | currency: 'PHP':'symbol':'1.2-2' }}</td>
+                        </tr>
+                      }
+                    }@else {
+                      
+                    }
+
+                  <tr style="border-top: 2px black solid;">
+                      <td colspan="3"><strong>Total:</strong></td>
+                      <td class="text-end"><strong>{{(totallyPrice || 0) + (totalService || 0) | currency: 'PHP':'symbol':'1.2-2' }}</strong></td>
+                  </tr>
+
+                  </tbody>
+                </table>
+                <div class="row">
+                  @if(showWarning){
+                    <p class="text-danger ">*Please update all required transaction details before submitting. </p>
+                  }
+                </div>
+          </div>
+
+
+          <div class="d-flex justify-content-around mt-3" style="justify-content: center;">
+            @if(totallyPrice === null){
+              <button class="btn rounded-5 text-light fw-bold" style="background-color: #2d7df5;" data-bs-toggle="modal" data-bs-target="#weightModal" (click)="openModal()">Add Weight</button>
+            }@else {
+              <button class="btn rounded-5 text-light fw-bold" style="background-color: #5997f4;" data-bs-toggle="modal" data-bs-target="#weightModal" (click)="editLaundryDetail()">Update Weight</button>
+            }
+
+
+            @if(servicess !== null){
+
+              @if(totalService === null){
+                <button class="btn rounded-5 text-light fw-bold" style="background-color: rgb(254, 203, 72);"  data-bs-toggle="modal" data-bs-target="#additionalServ" >Add Additional Services</button>
+
+              }@else {
+                <button class="btn rounded-5 text-light fw-bold" style="background-color: rgb(243, 208, 119);" data-bs-toggle="modal" data-bs-target="#additionalServ" (click)="editServiceDetail()">Update Additional Services</button>
+              }
+            }@else {
+
+            }
+
+          </div>
+
+          <div class="d-flex justify-content-end align-items-center mt-5 gap-3">
+            @if(transaction?.latest_transac_status === 'received'){
+              <button class="btn rounded-5 text-light fw-bolder" style="background-color: rgb(127, 127, 127);" (click)="back('back')">Back</button>
+                @if(totallyPrice !== 0 && totalService !== 0){
+                  <button class="btn rounded-5 text-light fw-bolder p-2" style="background-color: rgb(92, 198, 92);" (click)="submit(custInfo?.Cust_ID)">Update</button>
+                }
+                @else {
+                  <button class="btn rounded-5 text-light fw-bolder" style="background-color: rgb(52, 165, 52);" (click)="notComplete()" >Submit</button>
+                }
+            }@else {
+              <button class="btn rounded-5 text-light fw-bolder" style="background-color: rgb(127, 127, 127);" (click)="back('cancel')">Cancel</button>
+              @if(totallyPrice !== 0 || totalService !== 0){
+                <button class="btn rounded-5 text-light fw-bolder p-2" style="background-color: rgb(92, 198, 92);" (click)="submit(custInfo?.Cust_ID)">Submit</button>
+              }
+              @else {
+                <button class="btn rounded-5 text-light fw-bolder" style="background-color: rgb(52, 165, 52);" (click)="notComplete()" >Submit</button>
+              }
+            }
+
+        </div>
+      </div>
+  </div>
+</div> -->
+
+<div class="container mt-3 mb-3">
+  <div class="card laundry-card">
+      <div class="card-body">
+          <div class="text-center">
+              <p style="margin-bottom: -3px; font-weight: 800;">Customer name:</p>
+              <h3>{{custInfo?.CustomerName}}</h3>
+              <span style="display: flex; justify-content: space-around;">
+                <p><strong>Phone #: </strong><span style="font-size: large;">{{custInfo?.Cust_phoneno}}</span></p>
+                <p><strong>Email: </strong><span style="font-size: large;">{{custInfo?.Cust_email}}</span></p>
+              </span>
+          </div>
+          <hr class="mx-5 mt-0">
+
+          <div class="laundry-details">
+              <h4>Transaction Details</h4>
+              <p style="margin-bottom: -3px; font-weight: 800;">Tracking Number:</p>
+              <h5 class="text-center">{{transaction?.Tracking_number}}</h5>
+              <form [formGroup]="laundryDetailsForm" (ngSubmit)="submitLaundryDetails()">
+                <table class="table table-laundry">
+                  <thead>
+                    <tr >
+                      <th scope="row" colspan="5" class="rounded-2 rounded-bottom-0" style="background-color: #3e89f9; color:white;">Laundry Details</th>
+                    </tr>
+                    <tr>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Weight (kl)</th>
+                        <th class="text-center">
+                          @if(isEditingWeight == false){
+                            @if(laundryDetails.get('Weight')?.value == 0){
+                              Estimated Price
+                            }@else {
+                              Price
+                            }
+                            
+                          }@else {
+                            Price
+                          }
+                          
+                        </th>
+                    </tr>
+                  </thead>
+                  
+                    <tbody formArrayName="laundryDetails">
+                        <tr *ngFor="let ld of laundryDetails.controls; let i = index" [formGroupName]="i">
+                          <td>{{ ld.get('Category')?.value }}</td>
+                          <td>{{ld.get('Qty')?.value}}</td>
+                          <td>
+                            @if(isEditingWeight == true){
+                              <input
+                                type="number"
+                                class="form-control"
+                                formControlName="WeightEdit"
+                                min="0"
+                                [ngClass]="{
+                                  'is-invalid': ld.get('WeightEdit')?.invalid && ld.get('WeightEdit')?.touched,
+                                  'is-blue': ld.get('WeightEdit')?.value < ld.get('Minimum_weight')?.value && ld.get('WeightEdit')?.value > 0 && ld.get('WeightEdit')?.touched,
+                                  'is-red': ld.get('WeightEdit')?.hasError('required') && zero && ld.get('WeightEdit')?.touched,
+                                  'is-redd': ld.get('WeightEdit')?.value <= 0 && ld.get('WeightEdit')?.touched
+                                }"
+                                (input)="updatePrice(i); validateInput($event)"
+                                placeholder="Enter Weight"
+                                style="width: 100px;"
+                              >
+
+                              <div style="font-size: 12px;" *ngIf="ld.get('WeightEdit')?.hasError('required') && ld.get('WeightEdit')?.touched" class="text-danger">
+                                *Weight is required.
+                              </div>
+
+                              <div style="font-size: 12px;" *ngIf="ld.get('WeightEdit')?.value === 0 && ld.get('WeightEdit')?.touched" class="text-danger">
+                                *Weight is required.
+                              </div>
+
+                              <div *ngIf="ld.get('WeightEdit')?.value < ld.get('Minimum_weight')?.value && ld.get('WeightEdit')?.value > 0 && ld.get('WeightEdit')?.touched" style="color: rgb(44, 102, 210); font-size: 12px;">
+                                *Minimum weight is {{ ld.get('Minimum_weight')?.value }} kgs.
+                              </div>
+                            }@else {
+                              <p class="text-start">
+                                {{ ld.get('Weight')?.value ? ld.get('Weight')?.value : '-' }}
+                                <!-- {{ (ld.get('Weight')?.value != null || ld.get('Weight')?.value != 0) ?  ld.get('Weight')?.value : '-'}} -->
+                              </p>
+                            }  
+                          </td>
+
+                          @if(isEditingWeight == false){
+                            @if(ld.get('Weight')?.value == 0){
+                              <td class="text-end" scope="row" colspan="2">{{ ld.get('PriceperMin')?.value | currency:  'PHP':'symbol':'1.2-2'  }}</td>
+                            }@else {
+                              <td class="text-end">{{ ld.get('LaundryCharge')?.value | currency:  'PHP':'symbol':'1.2-2'  }}</td>
+                            }
+                          }@else {
+                            @if(ld.get('WeightEdit')?.value == 0){
+                              <td class="text-end">{{ ld.get('PriceperMin')?.value | currency:  'PHP':'symbol':'1.2-2'  }}</td>
+                            }@else {
+                              <td class="text-end">{{ ld.get('LaundryChargeEdit')?.value | currency:  'PHP':'symbol':'1.2-2'  }}</td>
+                            }
+                          }
+                        </tr>
+                        <tr style="border-top: 2px black solid; font-size: 14px; color: #3e89f9;" *ngIf="isEditingWeight == false">
+                          <td scope="row" colspan="3"  style="color: #3e89f9;"><strong>Laundry Prices Total:</strong></td>
+                          <td scope="row" colspan="1" style="color: #3e89f9;" class="text-end"><strong> {{ laundryDetTotal | currency: 'PHP':'symbol':'1.2-2'}}</strong></td>
+                        </tr>
+                        <tr style="border-top: 2px black solid; font-size: 17px; color: #3e89f9;" *ngIf="isEditingWeight == true">
+                          <td scope="row" colspan="3" style="color: #3e89f9;"><strong>Laundry Prices Total:</strong></td>
+                          <td scope="row" colspan="1" style="color: #3e89f9;" class="text-end"><strong> {{ totalPrice | currency: 'PHP':'symbol':'1.2-2'}}</strong></td>
+                        </tr>
+                        
+                      
+                      </tbody>
+                </table>
+              </form>
+
+
+              
+                  
+
+                    @if(servicess !== null){
+                      <!-- <form [formGroup]="updatelaundryform" (ngSubmit)="onSubmitServices()">
+                        
+                    <tbody formArrayName="services">
+                      <tr>
+                        <th scope="row" colspan="5" style="background-color:rgb(254, 203, 72); color: white">Additional Services</th>
+                      </tr>
+                      <tr>
+                        <th scope="row" colspan="1">Service Name</th>
+                        <th scope="row" colspan="3">Service Desciptions</th>
+                      </tr>
+                        <tr *ngFor="let sd of services.controls; let i = index" [formGroupName]="i">
+                          <td class="">{{ sd.get('AddService_name')?.value}}</td>
+                          <td scope="row" colspan="2" class="">{{ sd.get('AddService_name')?.value}}</td>
+                          <td class="text-end float-end">
+                            <input
+                              type="number"
+                              class="form-control text-end mx-auto"
+                              style="width: 100px;"
+                              placeholder="Enter Price"
+                              formControlName="AddService_price"
+                              (input)="calculateTotalServ()"
+                              [ngClass]="{
+                                'is-invalid': sd.get('AddService_price')?.invalid && sd.get('AddService_price')?.touched,
+                                'is-red': sd.get('AddService_price')?.hasError('required') && zero && sd.get('AddService_price')?.touched,
+                                'is-redd': sd.get('AddService_price')?.value === 0 && sd.get('AddService_price')?.touched
+                              }"
+                            >
+        
+                            <div *ngIf="sd.get('AddService_price')?.hasError('required') && sd.get('AddService_price')?.value === 0 && sd.get('AddService_price')?.touched" class="text-danger">
+                              *Price is required.
+                            </div>
+                            <div *ngIf="sd.get('AddService_price')?.value === 0 && sd.get('AddService_price')?.touched" class="text-danger">
+                              *Price is required.
+                            </div>
+                          </td>
+                        </tr>
+                    </tbody>
+                    </form> -->
+
+                    <form [formGroup]="updatelaundryform" (ngSubmit)="onSubmitServices()"  style="margin-top: -20px;">
+                      <table class="table mt-3">
+                        <thead>
+                          <tr>
+                            <th scope="row" colspan="5" style="background-color:rgb(254, 203, 72); color: white">Additional Services</th>
+                          </tr>
+                          <tr>
+                            <th class="text-start">Additional Service Name</th>
+                            <th>Service Description</th>
+                            <th class="text-center"></th>
+                          </tr>
+                        </thead>
+                        <tbody formArrayName="services">
+                            <tr *ngFor="let sd of services.controls; let i = index" [formGroupName]="i">
+                              <td class="text-start">{{ sd.get('AddService_name')?.value}}</td>
+                              <td class="text-start">
+                                <!-- @if(sd.get('PickUpAddress')?.value == 'Pick-Up Service'){
+                                  {{ sd.get('PickUpAddress')?.value}}
+                                }@else {
+                                  {{ sd.get('DeliveryAddress')?.value}}
+                                } -->
+                                {{ sd.get('Address')?.value}}
+                              </td>
+                              <td class="text-end">
+                                @if(isEditingService == true){
+                                  <input
+                                    type="number"
+                                    class="form-control text-center mx-auto"
+                                    style="width: 100px;"
+                                    min="0"
+                                    formControlName="AddService_price"
+                                    (input)="calculateTotalServ()"
+                                    [ngClass]="{
+                                      'is-invalid': sd.get('AddService_price')?.invalid && sd.get('AddService_price')?.touched,
+                                      'is-red': sd.get('AddService_price')?.hasError('required') && zero && sd.get('AddService_price')?.touched,
+                                      'is-redd': sd.get('AddService_price')?.value === 0 && sd.get('AddService_price')?.touched
+                                    }"
+                                  >
+
+                                  <div *ngIf="sd.get('AddService_price')?.hasError('required') && sd.get('AddService_price')?.value === 0 && sd.get('AddService_price')?.touched" class="text-danger">
+                                    *Price is required.
+                                  </div>
+                                  <div *ngIf="sd.get('AddService_price')?.value === 0 && sd.get('AddService_price')?.touched" class="text-danger">
+                                    *Price is required.
+                                  </div>
+                                }@else {
+                                  <p class="text-end">{{ sd.get('AddService_price')?.value | currency:  'PHP':'symbol':'1.2-2'}}</p>
+                                }
+                                
+                              </td>
+                            </tr>
+                            <tr style="border-top: 2px black solid; font-size: 14px;" *ngIf="servicess !== null && isEditingService == false">
+                              <td scope="row" colspan="2" style="color: rgb(254, 203, 72);"><strong>Additional Services Prices Total:</strong></td>
+                              <td scope="row" colspan="1" class="text-end" style="color: rgb(254, 203, 72);"><strong> {{addServiceTotal | currency: 'PHP':'symbol':'1.2-2'}}</strong></td>
+                            </tr>
+
+                            <tr style="border-top: 2px black solid; font-size: 14px;" *ngIf="servicess !== null && isEditingService == true">
+                              <td scope="row" colspan="2" style="color: rgb(254, 203, 72);"><strong>Additional Services Prices Total:</strong></td>
+                              <td scope="row" colspan="1" class="text-end" style="color: rgb(254, 203, 72);"><strong> {{addServiceTotal | currency: 'PHP':'symbol':'1.2-2'}}</strong></td>
+                            </tr>
+                        </tbody>
+                      </table>
+                      </form>
+                    }@else {
+                      
+                    }
+
+                  
+
+                  <div style="margin-top: -10px; display: flex; justify-content: space-between; font-size: 20px;" *ngIf="isEditingService == false && isEditingWeight == false">
+                      <p><strong>Overall Total:</strong></p>
+                      <p class="text-end"><strong> {{addServiceTotal + laundryDetTotal | currency: 'PHP':'symbol':'1.2-2'}}</strong></p>
+                      <!-- {{(laundryDetails.get('TotalLaundryPrice')?.value + laundryDetails.get('totalPrice')?.value) | currency: 'PHP':'symbol':'1.2-2' }} -->
+                  </div>
+              
+              
+
+                <div class="row">
+                  @if(showWarning){
+                    <p class="text-danger ">*Please update all required transaction details before submitting. </p>
+                  }
+                </div>
+          </div>
+
+
+          <div class="d-flex justify-content-around mt-3" style="justify-content: center;">
+            @if(isEditingWeight == true){
+              <button (click)="cancel()" class="btn rounded-5 text-light fw-bold px-5" style="background-color: #6d7581;">Cancel</button>
+
+              <button (click)="editLaundryDetail()" type="submit" class="btn rounded-5 text-light fw-bold px-5" style="background-color: #5997f4;" (click)="getTotalAmountWeight(totalPrice); submitLaundryDetails()" [disabled]="!laundryDetailsForm.valid || isZeroOrNullWeight() || load == true">
+                <span *ngIf="!load">Save</span>
+
+                <div class="spinner-border spinner-border-sm" style="color: currentColor;" *ngIf="load" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </button>
+            }@else if(isEditingService == true){
+              <button (click)="cancel()" class="btn rounded-5 text-light fw-bold px-5" style="background-color: rgb(132, 125, 109);">Cancel</button>
+              <button (click)="editServiceDetail()" type="submit" class="btn rounded-5 text-light fw-bold px-5" style="background-color: rgb(243, 208, 119);" (click)="getTotalAmountServices(updatelaundryform.get('totalPrice')?.value); onSubmitServices()"  [disabled]="!updatelaundryform.valid || isZeroOrNullPrice() || load == true">
+                <span *ngIf="!load">Save</span>
+
+                <div class="spinner-border spinner-border-sm" style="color: currentColor;" *ngIf="load" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </button>
+            }
+            @else {
+              @if(totallyPrice === null){
+                <button class="btn rounded-5 text-light fw-bold px-5" style="background-color: #2d7df5;" (click)="openModal()">Add Weight</button>
+              }@else {
+                <button class="btn rounded-5 text-light fw-bold px-5" style="background-color: #5997f4;" (click)="editLaundryDetail()">Update Weight</button>
+              }
+  
+  
+              @if(servicess != null){
+  
+                @if(totalService === null){
+                  <button class="btn rounded-5 text-light fw-bold" style="background-color: rgb(254, 203, 72);">Add Additional Services</button>
+  
+                }@else {
+                  <button class="btn rounded-5 text-light fw-bold" style="background-color: rgb(243, 208, 119);" (click)="editServiceDetail()">Update Additional Services</button>
+                }
+              }@else {
+  
+              }
+            }
+            
+
+          </div>
+
+          <div class="d-flex justify-content-end align-items-center mt-5 gap-3">
+            @if(isEditingService == true || isEditingWeight == true){
+
+            }@else {
+              @if(transaction?.latest_transac_status === 'received'){
+                <button class="btn rounded-5 text-light fw-bolder px-5" style="background-color: rgb(127, 127, 127);" (click)="back('back')">Back</button>
+                  @if(totallyPrice !== 0 && totalService !== 0){
+                    <button class="btn rounded-5 text-light fw-bolder p-2 px-5" style="background-color: rgb(92, 198, 92);" (click)="submit(custInfo?.Cust_ID)" [disabled]="load == true">
+                      <span *ngIf="!load">Update</span>
+
+                      <div class="spinner-border spinner-border-sm" style="color: currentColor;" *ngIf="load" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </button>
+                  }
+                  @else {
+                    <button class="btn rounded-5 text-light fw-bolder" style="background-color: rgb(52, 165, 52);" (click)="notComplete()" >Submit</button>
+                  }
+              }@else {
+                <button class="btn rounded-5 text-light fw-bolder" style="background-color: rgb(127, 127, 127);" (click)="back('cancel')">Cancel</button>
+                @if(totallyPrice !== 0 || totalService !== 0){
+                  <button class="btn rounded-5 text-light fw-bolder p-2" style="background-color: rgb(92, 198, 92);" (click)="submit(custInfo?.Cust_ID)" [disabled]="load == true">
+                    <span *ngIf="!load">Submit</span>
+
+                      <div class="spinner-border spinner-border-sm" style="color: currentColor;" *ngIf="load" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                  </button>
+                }
+                @else {
+                  <button class="btn rounded-5 text-light fw-bolder" style="background-color: rgb(52, 165, 52);" (click)="notComplete()" >Submit</button>
+                }
+              }
+            }
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- <div class="modal fade" id="weightModal" tabindex="-1" aria-labelledby="weightModalLabel" aria-hidden="true" [ngClass]="{ show: isModalVisible }" [style.display]="isModalVisible ? 'flex' : 'none'">
+  <div class="modal-dialog" style="max-width: 600px;">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="weightModalLabel">{{ isEditing ? 'Edit Weight' : 'Add Weight' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-regular fa-xmark fs-4"></i></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="laundryDetailsForm" (ngSubmit)="submitLaundryDetails()">
+          <table class="table table-laundry table-responsive">
+            <thead>
+              <tr>
+                <th>Laundry Category</th>
+                <th>Weight</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="laundryDetails">
+              <tr *ngFor="let ld of laundryDetails.controls; let i = index" [formGroupName]="i">
+                <td><label>{{ ld.get('Category')?.value }}</label></td>
+                <td class="col-xs-1">
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="Weight"
+                    [ngClass]="{
+                      'is-invalid': ld.get('Weight')?.invalid && ld.get('Weight')?.touched,
+                      'is-blue': ld.get('Weight')?.value < ld.get('Minimum_weight')?.value && ld.get('Weight')?.value > 0 && ld.get('Weight')?.touched,
+                      'is-red': ld.get('Weight')?.hasError('required') && zero && ld.get('Weight')?.touched,
+                      'is-redd': ld.get('Weight')?.value === 0 && ld.get('Weight')?.touched
+                    }"
+                    (input)="updatePrice(i)"
+                    placeholder="Enter Weight"
+                    style="width: 70px;"
+                  >
+
+                  <div *ngIf="ld.get('Weight')?.hasError('required') && ld.get('Weight')?.value === 0 && ld.get('Weight')?.touched" class="text-danger">
+                    *Weight is required.
+                  </div>
+                  <div *ngIf="ld.get('Weight')?.value === 0 && ld.get('Weight')?.touched" class="text-danger">
+                    *Weight is required.
+                  </div>
+                  <div *ngIf="ld.get('Weight')?.value < ld.get('Minimum_weight')?.value && ld.get('Weight')?.value > 0 && ld.get('Weight')?.touched" style="color: rgb(44, 102, 210)">
+                    *Minimum weight is {{ ld.get('Minimum_weight')?.value }} kgs.
+                  </div>
+                </td>
+                @if(isEditing === false){
+                  @if(ld.get('Weight')?.value === 0){
+                    <td class="text-end">{{ ld.get('PricePerKg')?.value | currency:  'PHP':'symbol':'1.2-2'  }}</td>
+                  }@else {
+                    <td class="text-end">{{ ld.get('Price')?.value | currency:  'PHP':'symbol':'1.2-2'  }}</td>
+                  }
+                }@else {
+                  @if(ld.get('Weight')?.value === 0){
+                    <td class="text-end">{{ ld.get('PricePerKg')?.value | currency:  'PHP':'symbol':'1.2-2'  }}</td>
+                  }@else {
+                    <td class="text-end">{{ ld.get('LaundryCharge')?.value | currency:  'PHP':'symbol':'1.2-2'  }}</td>
+                  }
+                }
+                  
+              </tr>
+              <tr style="border-top: 2px black solid;">
+                <td colspan="2"><strong>Total:</strong></td>
+                <td class="text-end">{{ totalPrice | currency: 'PHP':'symbol':'1.2-2' }}</td>
+              </tr>
+            </tbody>
+          </table>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" style="float: right;" (click)="getTotalAmountWeight(totalPrice)" [disabled]="!laundryDetailsForm.valid || isZeroOrNullWeight()">
+              {{ isEditing ? 'Update' : 'Submit' }}
+            </button>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</div> -->
+
+
+
+<!-- <div class="modal fade" id="additionalServ" tabindex="-1" aria-labelledby="weightModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="max-width: 600px;">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="weightModalLabel">{{ isEditing ? 'Edit Additional Service' : 'Add Additional Service' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-regular fa-xmark fs-4"></i></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updatelaundryform" (ngSubmit)="onSubmitServices()">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-center">Additional Service Name</th>
+                <th class="text-center">Price</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="services">
+                <tr *ngFor="let sd of services.controls; let i = index" [formGroupName]="i">
+                  <td class="text-center">{{ sd.get('AddService_name')?.value}}</td>
+                  <td class="text-center">
+                    <input
+                      type="number"
+                      class="form-control text-center mx-auto"
+                      style="width: 100px;"
+                      formControlName="AddService_price"
+                      (input)="calculateTotalServ()"
+                      [ngClass]="{
+                        'is-invalid': sd.get('AddService_price')?.invalid && sd.get('AddService_price')?.touched,
+                        'is-red': sd.get('AddService_price')?.hasError('required') && zero && sd.get('AddService_price')?.touched,
+                        'is-redd': sd.get('AddService_price')?.value === 0 && sd.get('AddService_price')?.touched
+                      }"
+                    >
+
+                    <div *ngIf="sd.get('AddService_price')?.hasError('required') && sd.get('AddService_price')?.value === 0 && sd.get('AddService_price')?.touched" class="text-danger">
+                      *Price is required.
+                    </div>
+                    <div *ngIf="sd.get('AddService_price')?.value === 0 && sd.get('AddService_price')?.touched" class="text-danger">
+                      *Price is required.
+                    </div>
+                  </td>
+                </tr>
+
+              <tr style="border-top: 2px black solid;">
+                <td colspan="1"><strong>Total:</strong></td>
+                <td class="text-end">
+                  {{ updatelaundryform.get('totalPrice')?.value | currency: 'PHP':'symbol':'1.2-2' }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <button type="submit" class="btn btn-primary" style="float: right;" data-bs-dismiss="modal" (click)="getTotalAmountServices(updatelaundryform.get('totalPrice')?.value)"  [disabled]="!updatelaundryform.valid || isZeroOrNullPrice()">{{ isEditing ? 'Update' : 'Submit' }}</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div> -->
+
+
+
+<div class="modal fade" #transactionModal data-bs-backdrop="static" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header mb-2">
+        <h5 class="modal-title" id="transactionModalLabel">Review Transaction Details</h5>
+        <button type="button" class="btn-close text-dark pt-0 mt-0 fs-5" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="d-flex justify-content-between">
+          <div>
+            <div class="section-title fs-4">{{custInfo?.CustomerName}}</div>
+            <div class="description-text fs-5">{{transaction?.Tracking_number}}</div>
+          </div>
+
+          <div>
+            <div class="transaction-time text-muted fs-5 mt-1">{{ transaction?.Transac_datetime ? (transaction?.Transac_datetime | date:'MMM dd, YYYY') : ''}}</div>
+            <div class="transaction-time text-muted fs-5 mt-1">{{ transaction?.Transac_datetime ?  (transaction?.Transac_datetime | date:'hh:mm a') : ''}}</div>
+          </div>
+        </div>
+
+        <div class="tab-content mt-1" id="myTabContent">
+          <div class="tab-pane fade show active" id="payment-info" role="tabpanel" aria-labelledby="payment-info-tab">
+            <div class="description-section">
+              <div class="">
+                <div class="">
+                  <div class="text-center fs-5">Transaction Details</div>
+                  <table class="w-100">
+                    <thead>
+                      <tr class="text-light" style="background-color: #6f9bcb;">
+                        <th class="text-center">Laundry Category</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-center">Weight</th>
+                        <th >Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for(ld of laundry; track ld.TransacDet_ID){
+                        <tr class="">
+                          <td class="">{{ld.Category}}</td>
+                          <td class="">{{ld.Qty}}</td>
+                          <td class="">{{ld.Weight + 'kg'}}</td>
+                          <td class="text-end">{{ld.EachPrice | currency: 'PHP':'symbol':'1.2-2' }}</td>
+                        </tr>
+                      }
+
+                      @if(servicess !== null){
+                        <tr>
+                          <th scope="row" colspan="1" class="text-start" style="background-color: #6f9bcb; color: white;">Additional Service Name</th>
+                          <th scope="row" colspan="2" class="text-start" style="background-color: #6f9bcb; color: white;">Service Description</th>
+                          <th scope="row" colspan="1" class="text-start" style="background-color: #6f9bcb; color: white;"></th>
+                        </tr>
+                        @for(ad of servicess?.data; track ad.AddService_ID){
+                          <tr class="">
+                            <td colspan="1" class="">{{ad.AddServiceName}}</td>
+                            <td colspan="2" class="">{{ad.Address}}</td>
+                            <td colspan="1" class="text-end">{{ad.service_price | currency: 'PHP':'symbol':'1.2-2' }}</td>
+                          </tr>
+                        }@empty {
+                          <p>No Additional Service was acquired within this transaction.</p>
+                        }
+                      }@else {
+
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <div class="divider"></div>
+
+        <div class="receipts-section">
+          <div class="section-title text-center">Billing Details</div>
+
+            <div class="d-flex justify-content-between">
+              <div class="receipts-info"></div>
+              <div>
+                <div class="support-fee">Total:</div>
+                <div class="transaction-amount text-end">{{(totallyPrice || 0) + (totalService || 0) | currency: 'PHP':'symbol':'1.2-2' }}</div>
+              </div>
+            </div>
+            <div class="small-text">Please recheck details before proceeding.</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+        <button type="button" class="btn receiving text-light" id="receiving"  style="background-color: rgb(92, 198, 92)" data-bs-dismiss="modal" (click)="submitting((totallyPrice || 0) + (totalService || 0), customerPayment)">Receive Transaction</button>
+      </div>
+    </div>
+  </div>
+</div>
+

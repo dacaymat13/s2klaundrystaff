@@ -1,0 +1,80 @@
+
+    <section style=" align-items: center; flex-direction: column;" class="secLog" >
+        <div class="wrapper fadeInDown">
+            <div id="formContent">
+                
+                <h2 class="active"> Staff Log In</h2>
+      
+                
+                <div class="fadeIn first">
+                    <img src="" id="icon" alt="" style="width: 30%" />
+                </div>
+      
+                
+                <form [formGroup]="loginForm">
+                    <div id="wrong" class="text-center text-danger mx-4 rounded mb-3" *ngIf="emailWrong || passWrong" style=" color: rgb(247, 76, 76); font-size: 14px;">Either the Username or Password you've entered is incorrect!</div>
+      
+                    <input type="text" id="email" 
+                        class="fadeIn second" 
+                        name="email"
+                        formControlName="email" 
+                        placeholder="Email" 
+                        (ngModelChange)="emailTouched()"
+                        required
+                        [ngClass]="{
+                            'is-invalid': email?.errors?.['required'] && (email?.dirty || email?.touched),
+                            'is-invalMin': email?.errors?.['email'] && (email?.touched),
+                            'is-invalWrong': emailWrong
+                        }"
+                    />
+                        <div *ngIf="email?.errors?.['required'] && (email?.dirty || email?.touched)" id="noemail" class="text-danger mt-2 mb-3">
+                            <small >Please input your email.</small>
+                        </div>
+    
+                        <div *ngIf="email?.errors?.['email'] && (email?.touched)" class="text-danger mt-2 mb-3">
+                            <small>Please enter a valid email address. *ex. staffS2k&#64;gmail.com</small>
+                        </div>
+      
+                    <input 
+                        type="password" 
+                        id="password" 
+                        class="fadeIn third" 
+                        name="password"
+                        formControlName="password" 
+                        placeholder="Password"
+                        (ngModelChange)="passTouched()"
+                        required
+                        [ngClass]="{
+                            'is-invalid': password?.errors?.['required'] && (password?.dirty || password?.touched),
+                            'is-invalMin': password?.errors?.['minlength'] && password?.touched,
+                            'is-invalWrong': passWrong
+                        }"
+                    />
+                        <div *ngIf="password?.errors?.['required'] && (password?.dirty || password?.touched)" id="nopassword" class="text-danger mt-2 mb-3">
+                            <small>Please input your password</small>
+                        </div>
+    
+                        <div *ngIf="password?.errors?.['minlength'] && password?.touched" id="nopassword" class="text-danger mt-2 mb-3">
+                            <small>Password expected needs to have 7 characters</small>
+                        </div> 
+      
+                    <div class="subLoad">
+                        <button type="submit" class="fadeIn fourth mt-3 btn" (click)="login()" [disabled]="!loginForm.valid || load == true" id="btnSub">
+                            <span *ngIf="!load">Log In</span>
+                            
+                            <div class="spinner-border spinner-border-sm" style="color: currentColor;" *ngIf="load" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                </form>
+                
+            </div>
+        </div>
+
+        <!-- Decorative Laundry Baskets -->
+   <img src="./basket 3.png" alt="Laundry Basket 1" class="laundry-basket basket-left">
+   <img src="./basket 4.png" alt="Laundry Basket 2" class="laundry-basket basket-right">
+      </section>
+<!-- </section> -->
